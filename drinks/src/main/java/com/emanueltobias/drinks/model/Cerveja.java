@@ -54,7 +54,7 @@ public class Cerveja {
 	private Sabor sabor;
 	
 	@ManyToOne
-	@JoinColumn(name = "codigo-estilo")
+	@JoinColumn(name = "codigo_estilo")
 	private Estilo estilo;
 
 	public String getSku() {

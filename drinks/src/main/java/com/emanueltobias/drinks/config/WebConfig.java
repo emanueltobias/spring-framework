@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -26,6 +28,7 @@ import com.emanueltobias.drinks.controller.CidadesController;
 import com.emanueltobias.drinks.controller.ClientesController;
 import com.emanueltobias.drinks.controller.EstilosController;
 import com.emanueltobias.drinks.controller.UsuariosController;
+import com.emanueltobias.drinks.controller.converter.EstiloConverter;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
@@ -74,6 +77,15 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+	}
+	
+	@Bean
+	public FormattingConversionService mvcConversionService() {
+		
+		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+		conversionService.addConverter(new EstiloConverter());
+		
+		return conversionService;
 	}
 
 }
