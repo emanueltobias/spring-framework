@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.model.Origem;
 import com.emanueltobias.drinks.model.Sabor;
-import com.emanueltobias.drinks.repository.Cervejas;
 import com.emanueltobias.drinks.repository.Estilos;
 import com.emanueltobias.drinks.service.CadastroCervejaService;
 
@@ -54,7 +53,7 @@ public class CervejasController {
 		System.out.println(">>> origem: " + cerveja.getOrigem());
 		System.out.println(">>> estilo: " + cerveja.getEstilo());
 		cadastroCervejaService.salvar(cerveja);
-		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso");
+		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso !");
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
 
