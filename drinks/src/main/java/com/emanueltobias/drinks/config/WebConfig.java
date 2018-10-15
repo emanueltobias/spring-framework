@@ -35,6 +35,7 @@ import com.emanueltobias.drinks.controller.ClientesController;
 import com.emanueltobias.drinks.controller.EstilosController;
 import com.emanueltobias.drinks.controller.UsuariosController;
 import com.emanueltobias.drinks.controller.converter.EstiloConverter;
+import com.emanueltobias.drinks.thymeleaf.DrinksDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
@@ -67,6 +68,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		engine.setTemplateResolver(templateResolver());
 
 		engine.addDialect(new LayoutDialect());
+		engine.addDialect(new DrinksDialect());
 		return engine;
 	}
 
