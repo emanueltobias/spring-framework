@@ -1,13 +1,17 @@
 package com.emanueltobias.drinks.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,13 +19,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.emanueltobias.drinks.controller.page.PageWrapper;
 import com.emanueltobias.drinks.model.Estilo;
+import com.emanueltobias.drinks.repository.Estilos;
+import com.emanueltobias.drinks.repository.filter.EstiloFilter;
 import com.emanueltobias.drinks.service.CadastroEstiloService;
 import com.emanueltobias.drinks.service.excepition.NomeEstiloJaCadastradoExcepition;
 
 @Controller
 @RequestMapping("/estilos")
 public class EstilosController {
+	
+	@Autowired
+	private Estilos estilos;
 
 	@Autowired
 	private CadastroEstiloService cadastroEstiloService;
@@ -29,16 +39,12 @@ public class EstilosController {
 	@RequestMapping("/novo")
 	public ModelAndView novo(Estilo estilo) {
 		ModelAndView mv = new ModelAndView("estilo/CadastroEstilo");
-
 		return mv;
 	}
 
 	@RequestMapping(value = "/novo", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Estilo estilo, BindingResult result, Model model,
-			RedirectAttributes attributes) {
+	public ModelAndView cadastrar(@Valid Estilo estilo, BindingResult result, Model model,RedirectAttributes attributes) {
 		if (result.hasErrors()) {
-			// model.addAttribute(cerveja);
-			// model.addAttribute("mensagem", "Erro formulário");
 			return novo(estilo);
 		}
 
@@ -50,7 +56,7 @@ public class EstilosController {
 			return novo(estilo);
 		}
 
-		System.out.println(">>> estilo: " + estilo.getNome());
+		//System.out.println(">>> estilo: " + estilo.getNome());
 		cadastroEstiloService.salvar(estilo);
 		attributes.addFlashAttribute("mensagem", "Estilo salvo com sucesso !");
 		return new ModelAndView("redirect:/estilos/novo");
@@ -65,6 +71,17 @@ public class EstilosController {
 		estilo = cadastroEstiloService.salvar(estilo);
 		return ResponseEntity.ok(estilo);
 
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar(EstiloFilter estiloFilter, BindingResult result,
+			@PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("estilo/PesquisaEstilos");
+		
+		PageWrapper<Estilo> paginaWrapper = new PageWrapper<>(estilos.filtrar(estiloFilter, pageable),
+				httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		return mv;
 	}
 
 }
