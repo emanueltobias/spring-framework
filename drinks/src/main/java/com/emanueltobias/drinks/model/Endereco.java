@@ -1,37 +1,42 @@
 package com.emanueltobias.drinks.model;
 
-import org.hibernate.validator.constraints.NotBlank;
+import java.io.Serializable;
 
-public class Endereco {
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
-	@NotBlank(message = "Logadouro é obrigatorio")
-	private String logadouro;
+@Embeddable
+public class Endereco implements Serializable {
 	
-	@NotBlank(message = "Número é obrigaorio")
-	private int numero;
+	private static final long serialVersionUID = 1L;
+
+	private String logradouro;
+	
+	private String numero;
 	
 	private String complemento;
 	
-	@NotBlank(message = "CEP é obrigatorio")
 	private String cep;
 	
-	@NotBlank(message = "Estado é obrigatorio")
-	private String estado;
+	@ManyToOne
+	@JoinColumn(name = "codigo_cidade")
+	private Cidade cidade;
 	
-	@NotBlank(message = "Cidade é obrigatorio")
-	private String cidade;
+	@Transient
+	private Estado estado;
 	
-	
-	public String getLogadouro() {
-		return logadouro;
+	public String getLogradouro() {
+		return logradouro;
 	}
-	public void setLogadouro(String logadouro) {
-		this.logadouro = logadouro;
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
 	}
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 	public String getComplemento() {
@@ -46,16 +51,28 @@ public class Endereco {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	public String getEstado() {
-		return estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	public String getCidade() {
+	public Cidade getCidade() {
 		return cidade;
 	}
-	public void setCidade(String cidade) {
+	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
+	public Estado getEstado() {
+		return estado;
+	}
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
+	
+	public String getNomeCidadeSiglaEstado() {
+		if (this.cidade != null) {
+			return this.cidade.getNome() + "/" + this.cidade.getEstado().getSigla();
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
 }

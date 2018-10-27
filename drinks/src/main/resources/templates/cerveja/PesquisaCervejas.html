@@ -2,7 +2,7 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.nz.net.ultraq.thymeleaf/thymeleaf/layout"
-	layout:decorator="'layout/LayoutPadrao'"
+	layout:decorate="~{layout/LayoutPadrao}"
 	xmlns:drinks="http://drinks.emanueltobias.com">
 <head>
 	<title>Pesquisa de Cervejas</title>
@@ -96,7 +96,7 @@
 				
 		</form>
 		
-		<div class="table-responsive bw-tabela-simples">
+		<div class="table-responsive dr-tabela-simples">
 			<table class="table table-hover">
 				<thead>
 					<tr>

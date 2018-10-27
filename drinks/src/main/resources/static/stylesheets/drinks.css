@@ -3,12 +3,12 @@
 #UTILIDADES
 ######################################
 */
-.bw-glyphicon-large {
+.dr-glyphicon-large {
 	font-size: 18px;
 	
 }
 
-.bw-requered > .control-label:after {
+.dr-requered > .control-label:after {
 	content: "*"	
 	
 }
@@ -21,12 +21,12 @@
 */
 
 /* Field Action */
-.bw-field-action {
+.dr-field-action {
 	display: flex;
 	
 }
 
-.bw-field-action__icon {
+.dr-field-action__icon {
 	margin: 6px 0 0 5px;
 	
 }
@@ -37,7 +37,7 @@
 ######################################
 */
 
-.bw-upload {
+.dr-upload {
 	padding: 15px;
 	
 	border: 1px dashed #ddd;
@@ -49,7 +49,7 @@
 }
 
 
-.bw-upload-form-file {
+.dr-upload-form-file {
 	display: inline-block;
 	 vertical-align: middle;
 	 position: relative;
@@ -59,7 +59,7 @@
 }
 
 
-.bw-upload-form-file > input[type=file] {
+.dr-upload-form-file > input[type=file] {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -76,15 +76,15 @@
 #TABELA SIMPLES
 ######################################
 */
-.bw-tabela-simples {
+.dr-tabela-simples {
 	margin-top: 15px;	
 }
 
-.bw-tabela-simples table tr th {
+.dr-tabela-simples table tr th {
 	border-bottom-width: 1px;
 }
 
-.bw-tabela-simples table tr td {
+.dr-tabela-simples table tr td {
 	border-top: none;
 	border-bottom: 1px solid #e7eaec;
 	padding: 10px;
@@ -97,10 +97,10 @@
 ######################################
 */
 
-/*Colunas - Pesquisa de Cervejas */
+/* Colunas - Pesquisa de Cervejas */
 .table-cervejas-col-foto {
 	min-width: 50px;
-	width: 50px;
+	width: 50px
 }
 
 .table-cervejas-col-sku {
@@ -109,7 +109,7 @@
 }
 
 .table-cervejas-col-nome {
-	/*min-width: 200px;*/
+	
 }
 
 .table-cervejas-col-estilo {
@@ -122,9 +122,49 @@
 
 .table-cervejas-col-valor {
 	width: 100px;
-	text-align;
+	text-align: right;
 }
 
 .table-cervejas-col-acoes {
 	width: 80px;
+}
+
+/* Colunas - Pesquisa de Estilos */
+.table-estilos-col-codigo {
+	width: 80px;
+}
+
+/* Colunas - Pesquisa de Clientes */
+.table-clientes-col-nome {
+	
+}
+
+.table-clientes-col-tipo-pessoa {
+	width: 120px;
+	text-align: center;
+}
+
+.table-clientes-col-cpf-cnpj {
+	width: 140px;
+	text-align: right;
+}
+
+.table-clientes-col-telefone {
+	width: 140px;
+	text-align: right;
+}
+
+.table-clientes-col-cidade-estado {
+	width: 140px;
+	text-align: right;
+}
+
+/* Colunas - Pesquisa de cidades */
+.table-cidades-col-nome {
+	
+}
+
+.table-cidades-col-estado {
+	width: 140px;
+	text-align: right;
 }

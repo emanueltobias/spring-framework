@@ -14,13 +14,13 @@ import com.emanueltobias.drinks.model.Usuario;
 @Controller
 public class UsuariosController{
 
-	@RequestMapping("usuarios/novo")
+	@RequestMapping("/usuarios/novo")
 	public String novo(Usuario usuario) {
 		// model.addAttribute(new Cerveja());
 		return "usuario/CadastroUsuario";
 	}
 
-	@RequestMapping(value = "usuarios/novo", method = RequestMethod.POST)
+	@RequestMapping(value = "/usuarios/novo", method = RequestMethod.POST)
 	public String cadastrar(@Valid Usuario usuario, BindingResult result, Model model, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			// model.addAttribute(cerveja);

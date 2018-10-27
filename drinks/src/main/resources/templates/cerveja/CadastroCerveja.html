@@ -2,7 +2,7 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.nz.net.ultraq.thymeleaf/thymeleaf/layout"
-	layout:decorator="'layout/LayoutPadrao'"
+	layout:decorate="~{layout/LayoutPadrao}"
 	xmlns:drinks="http://drinks.emanueltobias.com">
 <head>
 	<title>Cadastro de Cerveja</title>
@@ -36,40 +36,40 @@
 				<drinks:message/>
 
 				<div class="row">
-					<div class="col-sm-2 form-group bw-requered" drinks:classforerror="sku">
+					<div class="col-sm-2 form-group dr-requered" drinks:classforerror="sku">
 						<label for="sku" class="control-label">SKU</label> 
 						<input id="sku" type="text" class="form-control" th:field="*{sku}"/>
 					</div>
 
-					<div class="col-sm-10 form-group  bw-requered" drinks:classforerror="nome">						
+					<div class="col-sm-10 form-group  dr-requered" drinks:classforerror="nome">						
 						<label for="nome" class="control-label">Nome</label> 
 						<input id="nome" type="text" class="form-control" th:field="*{nome}" />
 					</div>
 				</div>
 
-				<div class="form-group  bw-requered" drinks:classforerror="descricao">
+				<div class="form-group  dr-requered" drinks:classforerror="descricao">
 					<label for="descricao" class="control-label">Descrição</label>
 					<textarea id="descricao" rows="3" class="form-control" th:field="*{descricao}"></textarea>
 				</div>
 
 				<div class="row">
-					<div class="col-sm-3 form-group  bw-requered" drinks:classforerror="estilo">
+					<div class="col-sm-3 form-group  dr-requered" drinks:classforerror="estilo">
 						<label for="estilo" class="control-label">Estilo</label> 
-						<div class="bw-field-action">
+						<div class="dr-field-action">
 							<select id="estilo" class="form-control" th:field="*{estilo}">
 								<option value="">Selecione o estilo</option>
 								<option th:each="estilo : ${estilos}" th:value="${estilo.codigo}" th:text="${estilo.nome}">Pale Lager </option>
 							</select>
 							
-							<div class="bw-field-action__icon">
+							<div class="dr-field-action__icon">
 								<a href="#" data-toggle="modal" data-target="#modalCadastroRapidoEstilo">
-									<i class="glyphicon glyphicon-plus-sign bw-glyphicon-large"></i>
+									<i class="glyphicon glyphicon-plus-sign dr-glyphicon-large"></i>
 								</a>
 							</div>
 						</div>
 					</div>
 
-					<div class="col-sm-3 form-group  bw-requered" drinks:classforerror="sabor">
+					<div class="col-sm-3 form-group  dr-requered" drinks:classforerror="sabor">
 						<label for="sabor" class="control-label">Sabor</label> 
 						<select id="sabor" class="form-control" th:field="*{sabor}">
 							<option value="">Selecione o sabor</option>
@@ -77,7 +77,7 @@
 						</select>
 					</div>
 
-					<div class="col-sm-3 form-group  bw-requered" drinks:classforerror="teorAlcoolico">
+					<div class="col-sm-3 form-group  dr-requered" drinks:classforerror="teorAlcoolico">
 						<label for="teorAlcoolico" class="control-label">Teor alcoólico</label>
 						<div class="input-group">
 							<input id="teorAlcoolico" type="text" class="form-control js-decimal" th:field="*{teorAlcoolico}"/>
@@ -85,7 +85,7 @@
 						</div>
 					</div>
 
-					<div class="col-lg-3 col-sm-6 form-group  bw-requered" drinks:classforerror="origem">
+					<div class="col-lg-3 col-sm-6 form-group  dr-requered" drinks:classforerror="origem">
 						<label for="origem" class="control-label">Origem</label>
 						<div>
 							<th:block th:each="origem : ${origens}">
@@ -100,7 +100,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-sm-3 form-group  bw-requered" drinks:classforerror="valor">
+					<div class="col-sm-3 form-group  dr-requered" drinks:classforerror="valor">
 						<label for="valor" class="control-label">Valor</label>
 						<div class="input-group">
 							<input id="valor" type="text" class="form-control js-decimal" th:field="*{valor}"/>
@@ -108,7 +108,7 @@
 						</div>
 					</div>
 
-					<div class="col-sm-3 form-group  bw-requered" drinks:classforerror="comissao">
+					<div class="col-sm-3 form-group  dr-requered" drinks:classforerror="comissao">
 						<label for="comissao" class="control-label">Comissão</label>
 						<div class="input-group">
 							<input id="comissao" type="text" class="form-control js-decimal" th:field="*{comissao}"/>
@@ -116,7 +116,7 @@
 						</div>
 					</div>
 
-					<div class="col-sm-3 form-group  bw-requered" drinks:classforerror="quantidadeEstoque">
+					<div class="col-sm-3 form-group  dr-requered" drinks:classforerror="quantidadeEstoque">
 						<label for="estoque" class="control-label">Estoque</label> 
 						<input id="estoque" type="text" class="form-control js-plain" th:field="*{quantidadeEstoque}"/>
 					</div>
@@ -131,10 +131,10 @@
 							<label class="control-label">Foto</label>
 							
 							<div class="js-container-foto-cerveja" th:attr="data-url-fotos=@{/fotos}">
-								<div id="upload-drop" class="bw-upload">
+								<div id="upload-drop" class="dr-upload">
 									<i class="glyphicon glyphicon-cloud-upload"></i>
 									<span>Arraste a foto aqui ou</span>
-									<a class="bw-upload-form-file">Selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
+									<a class="dr-upload-form-file">Selecione <input id="upload-select" type="file" accept=".jpg,.jpeg,.png"/></a>
 								</div>
 							</div>
 						</div>
@@ -156,7 +156,7 @@
 	</section>
 	
 	<th:block layout:fragment="javascript-extra">
-		<script th:src="@{/javascripts/vendors/estilo.cadastro-rapido.js}"></script>
+		<script th:src="@{/javascripts/estilo.cadastro-rapido.js}"></script>
 		<script th:src="@{/javascripts/vendors/uikit.min.js}"></script>
 		<script th:src="@{/javascripts/vendors/upload.min.js}"></script>
 		<script th:src="@{/javascripts/vendors/handlebars.min.js}"></script>

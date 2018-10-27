@@ -31,18 +31,16 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import com.emanueltobias.drinks.controller.CervejasController;
-import com.emanueltobias.drinks.controller.CidadesController;
-import com.emanueltobias.drinks.controller.ClientesController;
-import com.emanueltobias.drinks.controller.EstilosController;
-import com.emanueltobias.drinks.controller.UsuariosController;
+import com.emanueltobias.drinks.controller.converter.CidadeConverter;
+import com.emanueltobias.drinks.controller.converter.EstadoConverter;
 import com.emanueltobias.drinks.controller.converter.EstiloConverter;
 import com.emanueltobias.drinks.thymeleaf.DrinksDialect;
+import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
-@ComponentScan(basePackageClasses = { ClientesController.class, CervejasController.class, UsuariosController.class,
-		EstilosController.class, CidadesController.class })
+@ComponentScan(basePackageClasses = { CervejasController.class })
 @EnableWebMvc
 @EnableSpringDataWebSupport
 public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
@@ -71,6 +69,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
 		engine.addDialect(new LayoutDialect());
 		engine.addDialect(new DrinksDialect());
+		engine.addDialect(new DataAttributeDialect());
 		return engine;
 	}
 
@@ -94,6 +93,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter(new EstiloConverter());
+		conversionService.addConverter(new CidadeConverter());
+		conversionService.addConverter(new EstadoConverter());
 		
 		NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
