@@ -55,6 +55,25 @@ Drinks.MaskCep = (function () {
 
 }());
 
+Drinks.MaskDate = (function (){
+
+	function MaskDate() {
+		this.inputDate = $('.js-date');
+	}
+
+	MaskDate.prototype.enable = function() {
+		this.inputDate.mask('00/00/0000');
+		this.inputDate.datepicker({ provide: 'datepicker',
+			orientation: 'bottom' ,
+			language: 'pt-BR',
+			autoclose: true 
+		});
+	}
+
+	return MaskDate;
+	
+}());
+
 $(function() {
 	var maskMoney = new Drinks.MaskMoney();
 	maskMoney.enable();
@@ -64,5 +83,8 @@ $(function() {
 	
 	var maskCep = new Drinks.MaskCep();
 	maskCep.enable();
+	
+	var maskDate = new Drinks.MaskDate();
+	maskDate.enable();
 
 });

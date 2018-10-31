@@ -2,37 +2,55 @@ package com.emanueltobias.drinks.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emanueltobias.drinks.model.Usuario;
+import com.emanueltobias.drinks.repository.Grupos;
+import com.emanueltobias.drinks.service.CadastroUsuarioService;
+import com.emanueltobias.drinks.service.excepition.EmailUsuarioJaCadastradoException;
+import com.emanueltobias.drinks.service.excepition.SenhaObrigatoriaUsuarioException;
 
 @Controller
-public class UsuariosController{
+@RequestMapping("/usuarios")
+public class UsuariosController {
+	
+	@Autowired
+	CadastroUsuarioService cadastroUsuarioService;
+	
+	@Autowired
+	private Grupos grupos;
 
-	@RequestMapping("/usuarios/novo")
-	public String novo(Usuario usuario) {
-		// model.addAttribute(new Cerveja());
-		return "usuario/CadastroUsuario";
+	@RequestMapping("/novo")
+	public ModelAndView novo(Usuario usuario) {
+		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");
+		mv.addObject("grupos", grupos.findAll());
+		return mv;
 	}
-
-	@RequestMapping(value = "/usuarios/novo", method = RequestMethod.POST)
-	public String cadastrar(@Valid Usuario usuario, BindingResult result, Model model, RedirectAttributes attributes) {
+	
+	@PostMapping("/novo")
+	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
-			// model.addAttribute(cerveja);
-			// model.addAttribute("mensagem", "Erro formulário");
 			return novo(usuario);
 		}
+		
 
-		// Salvar no banco de dados...
-		System.out.println(">>>> Usuario:" + usuario.getNome());
-		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso");
-		return "redirect:/usuarios/novo";
+		try {
+			cadastroUsuarioService.salvar(usuario);
+		} catch (EmailUsuarioJaCadastradoException e) {
+			result.rejectValue("email", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		} catch (SenhaObrigatoriaUsuarioException e) {
+			result.rejectValue("senha", e.getMessage(), e.getMessage());
+			return novo(usuario);
+		}
+		
+		attributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso !");
+		return new ModelAndView("redirect:/usuarios/novo");
 	}
-
-
 }

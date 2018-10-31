@@ -12,6 +12,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.emanueltobias.drinks.config.JPAConfig;
+import com.emanueltobias.drinks.config.SecurityConfig;
 import com.emanueltobias.drinks.config.ServiceConfig;
 import com.emanueltobias.drinks.config.WebConfig;
 
@@ -19,7 +20,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[] { JPAConfig.class, ServiceConfig.class };
+		return new Class<?>[] { JPAConfig.class, ServiceConfig.class, SecurityConfig.class };
 	}
 
 	@Override

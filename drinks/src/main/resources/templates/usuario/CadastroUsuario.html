@@ -1,100 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.nz.net.ultraq.thymeleaf/thymeleaf/layout"
-	layout:decorate="~{layout/LayoutPadrao}">
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:drinks="http://drinks.emanueltobias.com">
+
 <head>
-	<title>Cadastro de Usuário</title>
+	<title>Cadastro de usuário</title>
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/stylesheets/vendors/bootstrap-switch.min.css}"/>
 </head>
-<body>
-	<section layout:fragment="conteudo">
 
+<section layout:fragment="conteudo">
 
-		<div class="page-header">
-			<div class="container-fluid">
-				<h1>Cadastro de Usuário</h1>
-			</div>
-		</div>
-
+	<div class="page-header">
 		<div class="container-fluid">
-
-			<!-- <div class="alert  alert-danger  alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<i class="fa  fa-exclamation-circle"></i> Já existe um produto com o nome informado.
-				</div> -->
-
-			<form method="POST" th:object="${cliente}" class="form-vertical  js-form-loading"> 
-				<div class="row">
-					<div class="col-sm-12 form-group ">
-						<label for="nome">Nome</label> 
-						<input id="nome" type="text" class="form-control" />
-					</div>
+			<h1>
+				Cadastro de usuário
+			</h1>
+		</div>
+	</div>
+	
+	<div class="container-fluid">
+		<form method="POST" th:object="${usuario}">
+			<drinks:message/>
+			
+			<div class="row">
+				<div class="form-group  col-sm-12  dr-required" drinks:classforerror="nome">
+					<label for="nome" class="control-label">Nome</label>
+					<input type="text" class="form-control" id="nome" autofocus="autofocus" th:field="*{nome}"/>
 				</div>
-				
-				<div class="row">
-					<div class="col-sm-8  form-group">
-						<label for="email">E-mail</label> 
-						<input id="email" type="text" class="form-control"/>
-					</div>
-					<div class="col-sm-4 form-group">
-						<label for="dataNascimento">Data de nascimento</label>
-						<input id="dataNascimento" type="date" class="form-control">
-					</div>
-				</div>
-				
-			  <div class="row">
-				<div class="col-sm-4 form-group ">
-						<label for="senha">Senha</label> 
-						<input id="senha" type="password" class="form-control"/>
-					</div>
-					
-					<div class="col-sm-4 form-group ">
-						<label for="confirmacaoSenha">Confirmação de senha</label> 
-						<input id="confirmacaoSenha" type="password"class="form-control"/>
-					</div>
-					
-					<div class="col-sm-4 form-group ">
-							<label class="control-label">Status</label> 
-							<div>
-						   		 <input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
-						   		 data-on-text="Ativo" data-off-text="Inativo">
-						    </div>
-					  </div>
-				</div>
-				
-				<div class="row">
-					<div class="col-sm-12 form-group">
-							<label for="grupos">Grupos</label>
-							<div>
-								<div class="radio radio-inline">
-									<input type="radio" name="grupos"/> 
-									<label>Administrador</label>
-								</div>
-								<div class="radio radio-inline">
-									<input type="radio" name="grupos"/> 
-									<label>Vendedor</label>
-								</div>
-							</div>
-						</div>
-				</div>
-
-				<div class="form-group">
-					<button class="btn  btn-primary" type="submit">Salvar</button>
-				</div>
-
-			</form>
 			</div>
-		
-	</section>
-	
-	<th:block layout:fragment="javascript-extra">
-		<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
-		<script>
-			$('.js-status').bootstrapSwitch();	
-		</script>
-	</th:block>
-	
-</body>
+				
+			<div class="row">
+				<div class="form-group  col-sm-6  dr-required" drinks:classforerror="email">
+					<label for="email" class="control-label">E-mail</label>
+					<input type="text" class="form-control" id="email" th:field="*{email}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3">
+					<label for="dataNascimento" class="control-label">Data de nascimento</label>
+					<input type="text" class="form-control js-date" id="dataNascimento" th:field="*{dataNascimento}" autocomplete="off"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-3"  drinks:classforerror="senha" th:classappend="${usuario.novo} ? dr-required">
+					<label for="senha" class="control-label">Senha</label> 
+					<input type="password" class="form-control" id="senha" th:field="*{senha}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3"  drinks:classforerror="confirmacaoSenha">
+					<label for="confirmacaoSenha" class="control-label">Confirmação de senha</label> 
+					<input type="password" class="form-control" id="confirmacaoSenha" th:field="*{confirmacaoSenha}"/>
+				</div>
+				
+				<div class="form-group  col-sm-3">
+					<label class="control-label">Status</label>
+					<div>
+						<input type="checkbox" class="js-status" data-size="small" data-off-color="danger" 
+							data-on-text="Ativo" data-off-text="Inativo" th:field="*{ativo}"/>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="row">
+				<div class="form-group  col-sm-6  dr-required" drinks:classforerror="grupos">
+					<label class="control-label">Grupos</label> 
+					<div>
+					<th:block th:each="grupo : ${grupos}">
+    					<div class="checkbox  checkbox-inline"> 
+	    					<input type="checkbox" th:value="${grupo.codigo}" th:field="*{grupos}"/>
+	    					<label th:for="${#ids.prev('grupos')}" th:text="${grupo.nome}">Vendedor</label>
+    					</div>
+    				</th:block>
+					</div>
+				</div>
+			</div>
+			
+			<button type="submit" class="btn  btn-primary">Salvar</button>
+		</form>
+	</div>
+</section>
+
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/vendors/bootstrap-switch.min.js}"></script>
+	<script>
+		$('.js-status').bootstrapSwitch();
+	</script>
+</th:block>
 </html>
