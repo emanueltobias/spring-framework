@@ -8,6 +8,7 @@ import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.standard.StandardDialect;
 
 import com.emanueltobias.drinks.thymeleaf.processor.ClassForErrorAttributeTagProcessor;
+import com.emanueltobias.drinks.thymeleaf.processor.MenuAttributeTagProcessor;
 import com.emanueltobias.drinks.thymeleaf.processor.MessageElementTagProcessor;
 import com.emanueltobias.drinks.thymeleaf.processor.OrderElementTagProcessor;
 import com.emanueltobias.drinks.thymeleaf.processor.PaginationElementTagProcessor;
@@ -25,6 +26,7 @@ public class DrinksDialect extends AbstractProcessorDialect{
 		processadores.add(new MessageElementTagProcessor(dialectPrefix));
 		processadores.add(new OrderElementTagProcessor(dialectPrefix));
 		processadores.add(new PaginationElementTagProcessor(dialectPrefix));
+		processadores.add(new MenuAttributeTagProcessor(dialectPrefix));
 		return processadores;
 	}
 

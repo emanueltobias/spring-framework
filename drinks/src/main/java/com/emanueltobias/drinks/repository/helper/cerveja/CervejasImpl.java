@@ -25,7 +25,7 @@ public class CervejasImpl implements CervejasQueries {
 	private EntityManager manager;
 	
 	@Autowired
-	private PaginacaoUtil paginacoaUtil;
+	private PaginacaoUtil paginacaoUtil;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -33,21 +33,21 @@ public class CervejasImpl implements CervejasQueries {
 	public Page<Cerveja> filtrar(CervejaFilter filtro, Pageable pageable) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cerveja.class);
 
-		paginacoaUtil.preparar(criteria, pageable);
-		adicionaFiltro(filtro, criteria);
+		paginacaoUtil.preparar(criteria, pageable);
+		adicionarFiltro(filtro, criteria);
 		
 		return new PageImpl<>(criteria.list(), pageable, total(filtro));
 	}
 	
 	private Long total(CervejaFilter filtro) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cerveja.class);
-		adicionaFiltro(filtro, criteria);
+		adicionarFiltro(filtro, criteria);
 		criteria.setProjection(Projections.rowCount());
 		return (Long) criteria.uniqueResult();
 	}
 
 
-	private void adicionaFiltro(CervejaFilter filtro, Criteria criteria) {
+	private void adicionarFiltro(CervejaFilter filtro, Criteria criteria) {
 		if (filtro != null) {
 			if (!StringUtils.isEmpty(filtro.getSku())) {
 				criteria.add(Restrictions.eq("sku", filtro.getSku()));
