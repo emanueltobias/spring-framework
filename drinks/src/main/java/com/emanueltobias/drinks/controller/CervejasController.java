@@ -4,22 +4,27 @@
  */
 package com.emanueltobias.drinks.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emanueltobias.drinks.controller.page.PageWrapper;
+import com.emanueltobias.drinks.dto.CervejaDTO;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.model.Origem;
 import com.emanueltobias.drinks.model.Sabor;
@@ -82,5 +87,9 @@ public class CervejasController {
 		return mv;
 	}
 
+	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody List<CervejaDTO> pesquisar(String skuOuNome) {
+		return cervejas.porSkuOuNome(skuOuNome);
+	}
 
 }

@@ -89,6 +89,11 @@ Drinks.Security = (function (){
 		return Security;
 }());
 
+Drinks.formatarMoeda = function(valor) {
+	numeral.language('pt-br');
+	return numeral(valor).format('0,0.00');
+}
+
 $(function() {
 	var maskMoney = new Drinks.MaskMoney();
 	maskMoney.enable();

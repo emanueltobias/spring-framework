@@ -174,6 +174,22 @@
 	width: 30px;
 	text-align: center;
 }
+/* Tabela Cervejas página de Venda */
+.dr-tabela-cervejas {
+	margin-bottom: 15px;
+}
+
+.dr-tabela-cervejas__vazio {
+	padding: 15px 15px;
+	
+	border: 1px dashed #ddd;
+	
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: 300;
+	color: #555;
+}
+
 
 /*
 ######################################
@@ -184,6 +200,106 @@
 .checkbox input[type="checkbox"]:checked + input + label::after {
     font-family: 'FontAwesome';
     content: "\f00c"; 
+}
+
+/* Easy Autocomplete */
+.easy-autocomplete input {
+	border-radius: 2px !important;
+}
+
+.easy-autocomplete-container ul li {
+	font-size: 1em !important;
+	padding: 0px 5px !important;
+}
+
+/* Tabela Item */
+.dr-tabela-item {
+	position: relative; /* Para que o painel de exclusão apareça dentro da linha */
+	
+	padding: 15px 0;
+	
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.dr-tabela-item:after {
+	clear: both;
+	display: block;
+    content: "";
+}
+
+.dr-tabela-item ~ .dr-tabela-item {
+	border-top: 1px solid #ddd;
+}
+
+.dr-tabela-item__coluna {
+	padding: 0 10px;
+}
+
+.dr-tabela-item__coluna--foto {
+	float: left;
+	width: 60px;
+	
+	text-align: center;
+}
+
+.dr-tabela-item__coluna--valores {
+	padding-right: 0px;
+}
+
+.dr-tabela-item__coluna--detalhes, .dr-tabela-item__coluna--valores {
+	margin-left: 60px;
+}
+
+.dr-tabela-cerveja-nome {
+	font-weight: 500;
+	font-size: 1.1em;
+	display: block;
+}
+
+.dr-tabela-cerveja-origem {
+	color: #aaa;
+	display: block;
+	font-weight: 200;
+}
+
+.dr-tabela-cerveja-campo-quantidade {
+	width: 30px;
+	text-align: right;
+}
+
+.dr-tabela-cerveja-valor-pequeno {
+	font-weight: 300;
+	font-size: 1em;
+}
+
+.dr-tabela-cerveja-valor-medio {
+	font-weight: 300;
+	font-size: 1.3em;
+}
+
+.dr-tabela-cerveja-valor-grande {
+	font-weight: 300;
+	font-size: 1.6em;
+}
+
+@media (min-width: 768px) { /* screen-sm-min */
+	.dr-tabela-item__coluna {
+		float: left;
+		margin-left: 0px;
+	}
+	
+	.dr-tabela-item__coluna--detalhes {
+		width: calc(70% - 30px);
+	}
+	
+	.dr-tabela-item__coluna--valores {
+		width: calc(30% - 30px);
+
+		text-align: right;
+	}
 }
 
 

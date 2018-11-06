@@ -25,6 +25,7 @@ import org.hibernate.validator.group.GroupSequenceProvider;
 import com.emanueltobias.drinks.model.validation.ClienteGroupSequenceProvider;
 import com.emanueltobias.drinks.model.validation.group.CnpjGroupCheck;
 import com.emanueltobias.drinks.model.validation.group.CpfGroupCheck;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "cliente")
@@ -56,7 +57,8 @@ public class Cliente implements Serializable {
 	
 	@Email(message = "E-mail inválido ")
 	private String email;
-
+	
+	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 	
