@@ -89,9 +89,14 @@ Drinks.Security = (function (){
 		return Security;
 }());
 
+numeral.language('pt-br');
+
 Drinks.formatarMoeda = function(valor) {
-	numeral.language('pt-br');
 	return numeral(valor).format('0,0.00');
+}
+
+Drinks.recuperarValor = function(valorFormatado) {
+	return numeral().unformat(valorFormatado);
 }
 
 $(function() {

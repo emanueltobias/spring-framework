@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:data="http://www.thymeleaf.org/extras/data">
+	
+<div class="dr-tabela-item js-tabela-item" th:each="item : ${itens}" data:valor-total="${valorTotal}">
+		<div class="dr-tabela-item__coluna dr-tabela-item__coluna--foto">
+			<img  th:src="@{/fotos/thumbnail.{foto}(foto=${item.cerveja.fotoOrMock})}" class="img-responsive"/>
+		</div>
+		
+		<div class="dr-tabela-item__coluna dr-tabela-item__coluna--detalhes">
+			<span class="dr-tabela-cerveja-nome" th:text="${item.cerveja.nome}">Negra Modelo Long Neck 355ml</span>
+			<span class="label label-default" th:text="${item.cerveja.sku}">AA1112</span>
+			<span class="dr-tabela-cerveja-origem" th:text="${item.cerveja.origem.descricao}">importada</span>
+		</div>
+		
+		<div class="dr-tabela-item__coluna dr-tabela-item__coluna--valores">
+			<div class="dr-tabela-cerveja-valor-pequeno">
+				<input type="text" maxlength="3" 
+					class="dr-tabela-cerveja-campo-quantidade js-tabela-cerveja-quantidade-item" 
+					th:value="${item.quantidade}" data:codigo-cerveja="${item.cerveja.codigo}"/>
+				<span >x R$[[${{item.valorUnitario}}]]</span>
+			</div>
+			<div class="dr-tabela-cerveja-valor-grande">R$[[${{item.valorTotal}}]]</div>
+		</div>
+		
+		<div class="dr-tabela-item__painel-exclusao">
+			<span class="dr-tabela-item__titulo-exclusao">Excluir este item da venda?</span>
+			<button type="button" class="btn  btn-danger js-exclusao-item-btn"
+				data:codigo-cerveja="${item.cerveja.codigo}">Sim, excluir!</button>
+		</div>
+		
+	</div>
+	
+	<div class="dr-tabela-cervejas__vazio" th:if="${itens.empty}">
+		<i class="glyphicon  glyphicon-shopping-cart"></i> 
+		<span>Você ainda não adicionou nenhuma cerveja.</span>
+	</div>
+</html>
