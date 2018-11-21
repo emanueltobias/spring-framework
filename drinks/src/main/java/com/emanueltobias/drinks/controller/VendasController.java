@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emanueltobias.drinks.controller.page.PageWrapper;
 import com.emanueltobias.drinks.controller.validator.VendaValidator;
+import com.emanueltobias.drinks.mail.Mailer;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.model.StatusVenda;
 import com.emanueltobias.drinks.model.TipoPessoa;
@@ -53,6 +54,9 @@ public class VendasController {
 	
 	@Autowired
 	private Vendas vendas;
+	
+	@Autowired
+	private Mailer mailer;
 	
 	@InitBinder("venda")
 	public void inicializarValidador(WebDataBinder binder) {
@@ -112,8 +116,10 @@ public class VendasController {
 		
 		venda.setUsuario(usuarioSistema.getUsuario());
 		
-		cadastroVendaService.salvar(venda);
-		attributes.addFlashAttribute("mensagem", "Venda salva e e-mail enviado !");
+		venda = cadastroVendaService.salvar(venda);
+		mailer.enviar(venda);
+		
+		attributes.addFlashAttribute("mensagem", String.format("Venda n° %d salva com sucesso e e-mail enviado !", venda.getCodigo()));
 		return new ModelAndView("redirect:/vendas/nova");
 	}
 	
