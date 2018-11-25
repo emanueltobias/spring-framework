@@ -17,8 +17,9 @@ import net.coobird.thumbnailator.name.Rename;
 
 public class FotoStorageLocal implements FotoStorage {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FotoStorageLocal.class);
-
+	private static final Logger logger = LoggerFactory.getLogger(FotoStorageLocal.class);
+	private static final String THUMBNAIL_PREFIX = "thumbnail.";
+	
 	private Path local;
 	private Path localTemporario;
 
@@ -86,7 +87,17 @@ public class FotoStorageLocal implements FotoStorage {
 
 	@Override
 	public byte[] recuperarThumbnail(String fotoCerveja) {
-		return recuperar("thumbnail." + fotoCerveja);
+		return recuperar(THUMBNAIL_PREFIX + fotoCerveja);
+	}
+	
+	@Override
+	public void excluir(String foto) {
+		try {
+			Files.deleteIfExists(this.local.resolve(foto));
+			Files.deleteIfExists(this.local.resolve(THUMBNAIL_PREFIX + foto));
+		} catch (IOException e) {
+			logger.warn(String.format("Erro apagando foto '%s'. Mensagem: %s", e.getMessage()));
+		}
 	}
 	
 	private void criarPastas() {
@@ -95,10 +106,10 @@ public class FotoStorageLocal implements FotoStorage {
 			this.localTemporario = getDefault().getPath(this.local.toString(), "temp");
 			Files.createDirectories(this.localTemporario);
 
-			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Pastas criadas para salvar fotos.");
-				LOGGER.debug("Pastas default: " + this.local.toAbsolutePath());
-				LOGGER.debug("Pasta Temporária: " + this.localTemporario.toAbsolutePath());
+			if (logger.isDebugEnabled()) {
+				logger.debug("Pastas criadas para salvar fotos.");
+				logger.debug("Pastas default: " + this.local.toAbsolutePath());
+				logger.debug("Pasta Temporária: " + this.localTemporario.toAbsolutePath());
 			}
 		} catch (IOException e) {
 			throw new RuntimeException("Erro criando pasta para salvar foto", e);
@@ -108,12 +119,11 @@ public class FotoStorageLocal implements FotoStorage {
 	private String renomearArquivo(String nomeOriginal) {
 		String novoNome = UUID.randomUUID().toString() + "_" + nomeOriginal;
 
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug(String.format("Nome original: %s, novo nome: %s", nomeOriginal, novoNome));
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Nome original: %s, novo nome: %s", nomeOriginal, novoNome));
 		}
 
 		return novoNome;
 	}
-
 
 }

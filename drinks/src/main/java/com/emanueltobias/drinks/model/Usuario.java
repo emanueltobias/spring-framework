@@ -48,7 +48,7 @@ public class Usuario implements Serializable {
 	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
 	
-	private boolean ativo;
+	private Boolean ativo;
 
 	@Size(min = 1, message = "Selecione pelo menos um grupo")
 	@ManyToMany
@@ -91,13 +91,15 @@ public class Usuario implements Serializable {
 	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	public boolean isAtivo() {
+	
+	public Boolean getAtivo() {
 		return ativo;
 	}
-	public void setAtivo(boolean ativo) {
+	
+	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
-	
+
 	public List<Grupo> getGrupos() {
 		return grupos;
 	}

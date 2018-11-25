@@ -36,7 +36,7 @@ public class AppUserDetailsService implements UserDetailsService{
 		
 		//Lista de permissoes do usuario
 		List<String> permissoes = usuarios.permissoes(usuario);
-		permissoes.forEach(p -> authorities.add(new SimpleGrantedAuthority("ROLE_" + p.toUpperCase())));
+		permissoes.forEach(p -> authorities.add(new SimpleGrantedAuthority(p.toUpperCase())));
 		return authorities;
 	}
 }
