@@ -1,5 +1,6 @@
 package com.emanueltobias.drinks.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,11 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.emanueltobias.drinks.controller.page.PageWrapper;
 import com.emanueltobias.drinks.controller.validator.VendaValidator;
+import com.emanueltobias.drinks.dto.VendaMes;
+import com.emanueltobias.drinks.dto.VendaOrigem;
 import com.emanueltobias.drinks.mail.Mailer;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.model.ItemVenda;
@@ -175,7 +179,7 @@ public class VendasController {
 	}
 	
 	@PostMapping(value = "/nova", params = "cancelar")
-	public ModelAndView canclar(Venda venda, BindingResult result
+	public ModelAndView cancelar(Venda venda, BindingResult result
 			, RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
 		try {
 			cadastroVendaService.cancelar(venda);
@@ -186,6 +190,16 @@ public class VendasController {
 		attributes.addFlashAttribute("mensagem", "Venda cancelada com sucesso");
 		return new ModelAndView("redirect:/vendas/" + venda.getCodigo());
 		
+	}
+	
+	@GetMapping("/totalPorMes")
+	public @ResponseBody List<VendaMes> listarTotalVendaPorMes() {
+		return vendas.totalPorMes();
+	}
+	
+	@GetMapping("/porOrigem")
+	public @ResponseBody List<VendaOrigem> vendasPorNacionalidade() {
+		return this.vendas.totalPorOrigem();
 	}
 		
 	private ModelAndView mvTabelaItensVenda(String uuid) {

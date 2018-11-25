@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.emanueltobias.drinks.dto.CervejaDTO;
+import com.emanueltobias.drinks.dto.ValorItensEstoque;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.repository.filter.CervejaFilter;
 import com.emanueltobias.drinks.repository.paginacao.PaginacaoUtil;
@@ -40,6 +41,12 @@ public class CervejasImpl implements CervejasQueries {
 		adicionarFiltro(filtro, criteria);
 		
 		return new PageImpl<>(criteria.list(), pageable, total(filtro));
+	}
+	
+	@Override
+	public ValorItensEstoque valorItensEstoque() {
+		String query = "select new com.emanueltobias.drinks.dto.ValorItensEstoque(sum(valor * quantidadeEstoque), sum(quantidadeEstoque)) from Cerveja";
+		return manager.createQuery(query, ValorItensEstoque.class).getSingleResult();
 	}
 	
 	private Long total(CervejaFilter filtro) {
