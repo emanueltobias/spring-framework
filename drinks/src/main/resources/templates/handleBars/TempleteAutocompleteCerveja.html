@@ -1,7 +1,7 @@
 <script id="template-autocomplete-cerveja" type="text/x-handlebars-template">
 	<div class="dr-tabela-item">
 		<div class="dr-tabela-item__coluna  dr-tabela-item__coluna--foto">
-			<img th:src="@{/fotos/thumbnail.{{foto}}}" class="img-responsive" />
+			<img src="{{urlThumbnailFoto}}" class="img-responsive"/>
 		</div>
 		<div class="dr-tabela-item__coluna  dr-tabela-item__coluna--detalhes">
 			<span class="dr-tabela-cerveja-nome">{{nome}}</span>

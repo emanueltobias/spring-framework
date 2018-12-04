@@ -22,6 +22,7 @@ import com.emanueltobias.drinks.dto.ValorItensEstoque;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.repository.filter.CervejaFilter;
 import com.emanueltobias.drinks.repository.paginacao.PaginacaoUtil;
+import com.emanueltobias.drinks.storage.FotoStorage;
 
 public class CervejasImpl implements CervejasQueries {
 
@@ -30,6 +31,9 @@ public class CervejasImpl implements CervejasQueries {
 	
 	@Autowired
 	private PaginacaoUtil paginacaoUtil;
+	
+	@Autowired
+	private FotoStorage fotoStorage;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -101,7 +105,7 @@ public class CervejasImpl implements CervejasQueries {
 		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql, CervejaDTO.class)
 			.setParameter("skuOuNome", skuOuNome + "%")
 			.getResultList(); 
-		
+		cervejasFiltradas.forEach(c -> c.setUrlThumbnailFoto(fotoStorage.getUrl(FotoStorage.THUMBNAIL_PREFIX + c.getFoto())));
 		return cervejasFiltradas;
 	}
 

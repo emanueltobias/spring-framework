@@ -22,7 +22,7 @@ import org.thymeleaf.context.Context;
 import com.emanueltobias.drinks.model.Cerveja;
 import com.emanueltobias.drinks.model.ItemVenda;
 import com.emanueltobias.drinks.model.Venda;
-import com.emanueltobias.drinks.storage.local.FotoStorage;
+import com.emanueltobias.drinks.storage.FotoStorage;
 
 @Component
 public class Mailer {

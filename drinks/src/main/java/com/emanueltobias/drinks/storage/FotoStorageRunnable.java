@@ -4,15 +4,14 @@ import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.emanueltobias.drinks.dto.FotoDTO;
-import com.emanueltobias.drinks.storage.local.FotoStorage;
 
-public class FotoStoragRunnable implements Runnable {
+public class FotoStorageRunnable implements Runnable {
 
 	private MultipartFile[] files;
 	private DeferredResult<FotoDTO> resultado;
 	private FotoStorage fotoStorage;
 	
-	public FotoStoragRunnable(MultipartFile[] files, DeferredResult<FotoDTO> resultado, FotoStorage fotoStorage) {
+	public FotoStorageRunnable(MultipartFile[] files, DeferredResult<FotoDTO> resultado, FotoStorage fotoStorage) {
 		this.files = files;
 		this.resultado = resultado;
 		this.fotoStorage = fotoStorage;
@@ -20,9 +19,9 @@ public class FotoStoragRunnable implements Runnable {
 
 	@Override
 	public void run() {
-		String nomeFoto = this.fotoStorage.salvarTemporariamente(files);
+		String nomeFoto = this.fotoStorage.salvar(files);
 		String contentType = files[0].getContentType();
-		resultado.setResult(new FotoDTO(nomeFoto, contentType));
+		resultado.setResult(new FotoDTO(nomeFoto, contentType, fotoStorage.getUrl(nomeFoto)));
 		
 	}
 

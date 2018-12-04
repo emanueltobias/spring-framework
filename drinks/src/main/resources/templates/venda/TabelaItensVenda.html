@@ -5,7 +5,7 @@
 	
 <div class="dr-tabela-item js-tabela-item" th:each="item : ${itens}" data:valor-total="${valorTotal}">
 		<div class="dr-tabela-item__coluna dr-tabela-item__coluna--foto">
-			<img  th:src="@{/fotos/thumbnail.{foto}(foto=${item.cerveja.fotoOrMock})}" class="img-responsive"/>
+			<img  th:src="${item.cerveja.urlThumbnailFoto}" class="img-responsive"/>
 		</div>
 		
 		<div class="dr-tabela-item__coluna dr-tabela-item__coluna--detalhes">
