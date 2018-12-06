@@ -6,14 +6,13 @@ package com.emanueltobias.drinks.config;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
-import javax.sql.DataSource;
+import javax.cache.Caching;
 
 import org.springframework.beans.BeansException;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
@@ -32,9 +31,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
-import org.springframework.web.servlet.view.jasperreports.JasperReportsViewResolver;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -52,17 +49,16 @@ import com.emanueltobias.drinks.controller.converter.GrupoConverter;
 import com.emanueltobias.drinks.session.TabelasItensSession;
 import com.emanueltobias.drinks.thymeleaf.DrinksDialect;
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
-import com.google.common.cache.CacheBuilder;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Configuration
-@ComponentScan(basePackageClasses = { CervejasController.class, TabelasItensSession.class})
+@ComponentScan(basePackageClasses = { CervejasController.class, TabelasItensSession.class })
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @EnableCaching
 @EnableAsync
-public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
 
 	private ApplicationContext applicationContext;
 
@@ -70,18 +66,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 
-	}
-	
-	@Bean
-	public ViewResolver jasperReportsViewResolver(DataSource datasource) {
-		JasperReportsViewResolver resolver = new JasperReportsViewResolver();
-		resolver.setPrefix("classpath:/relatorios/");
-		resolver.setSuffix(".jasper");
-		resolver.setViewNames("relatorio_*");
-		resolver.setViewClass(JasperReportsMultiFormatView.class);
-		resolver.setJdbcDataSource(datasource);
-		resolver.setOrder(0);
-		return resolver;
 	}
 
 	@Bean
@@ -120,57 +104,63 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
 	}
-	
+
 	@Bean
 	public FormattingConversionService mvcConversionService() {
-		
+
 		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
 		conversionService.addConverter(new EstiloConverter());
 		conversionService.addConverter(new CidadeConverter());
 		conversionService.addConverter(new EstadoConverter());
 		conversionService.addConverter(new GrupoConverter());
-		
+
 		// Formatar valores
-		//NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
+		// NumberStyleFormatter bigDecimalFormatter = new
+		// NumberStyleFormatter("#,##0.00");
 		BigDecimalFormatter bigDecimalFormatter = new BigDecimalFormatter("#,##0.00");
 		conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
-		
-		//NumberStyleFormatter integerFormatter = new NumberStyleFormatter("#,##0");
+
+		// NumberStyleFormatter integerFormatter = new NumberStyleFormatter("#,##0");
 		BigDecimalFormatter integerFormatter = new BigDecimalFormatter("#,##0");
 		conversionService.addFormatterForFieldType(Integer.class, integerFormatter);
-		
+
 		// API de Datas a partir do Java 8
 		DateTimeFormatterRegistrar dateTimeFormatter = new DateTimeFormatterRegistrar();
 		dateTimeFormatter.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		dateTimeFormatter.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm"));
 		dateTimeFormatter.registerFormatters(conversionService);
-		
+
 		return conversionService;
 	}
-	
-	/*@Bean
-	public LocaleResolver localeResolver( ) {
-		
-		return new FixedLocaleResolver(new Locale("pt", "BR"));
-	}*/
-	
+
+	/*
+	 * @Bean public LocaleResolver localeResolver( ) {
+	 * 
+	 * return new FixedLocaleResolver(new Locale("pt", "BR")); }
+	 */
+
 	@Bean
-	public CacheManager cacheManager() {
-		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
-				.maximumSize(3)
-				.expireAfterAccess(20, TimeUnit.SECONDS);
-		
-		GuavaCacheManager cacheManager = new GuavaCacheManager();
-		cacheManager.setCacheBuilder(cacheBuilder);
-		return cacheManager;
-		//return new ConcurrentMapCacheManager();
+	public CacheManager cacheManager() throws Exception {
+		/*
+		 * CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
+		 * .maximumSize(3) .expireAfterAccess(20, TimeUnit.SECONDS);
+		 * 
+		 * GuavaCacheManager cacheManager = new GuavaCacheManager();
+		 * cacheManager.setCacheBuilder(cacheBuilder); return cacheManager;
+		 */
+
+		return new JCacheCacheManager(Caching.getCachingProvider().getCacheManager(
+				getClass().getResource("/cache/ehcache.xml").toURI(),
+				getClass().getClassLoader()));
+		// Padrão
+		// return new ConcurrentMapCacheManager();
 	}
-	
+
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource bundle = new ReloadableResourceBundleMessageSource();
 		bundle.setBasename("classpath:/messages");
-		bundle.setDefaultEncoding("UTF-8"); //http://www.utf-8-chartable.de/
+		bundle.setDefaultEncoding("UTF-8"); // http://www.utf-8-chartable.de/
 		return bundle;
 	}
 
@@ -178,18 +168,18 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	public DomainClassConverter<FormattingConversionService> domainClassConverter() {
 		return new DomainClassConverter<FormattingConversionService>(mvcConversionService());
 	}
-	
+
 	@Bean
 	public LocalValidatorFactoryBean validator() {
-	    LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
-	    validatorFactoryBean.setValidationMessageSource(messageSource());
-	    
-	    return validatorFactoryBean;
+		LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
+		validatorFactoryBean.setValidationMessageSource(messageSource());
+
+		return validatorFactoryBean;
 	}
 
 	@Override
 	public Validator getValidator() {
 		return validator();
 	}
-	
+
 }
