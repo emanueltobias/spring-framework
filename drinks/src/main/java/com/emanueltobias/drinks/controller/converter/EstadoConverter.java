@@ -1,10 +1,12 @@
 package com.emanueltobias.drinks.controller.converter;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.emanueltobias.drinks.model.Estado;
 
+@Component
 public class EstadoConverter implements Converter<String, Estado>{
 
 	

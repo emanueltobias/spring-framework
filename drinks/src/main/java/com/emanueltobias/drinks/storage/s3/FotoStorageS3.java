@@ -25,7 +25,7 @@ import com.emanueltobias.drinks.storage.FotoStorage;
 
 import net.coobird.thumbnailator.Thumbnails;
 
-@Profile("amazon")
+@Profile("prod")
 @Component
 public class FotoStorageS3 implements FotoStorage {
 	
